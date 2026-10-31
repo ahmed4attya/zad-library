@@ -5,7 +5,7 @@ import { ImportButton } from './ImportButton';
 
 export function EmptyCatalog() {
   return (
-    <div className="card-box relative -mt-[52px]">
+    <div className="card-box">
       <b>لم يتم العثور على فهرس المكتبة</b>
       <ol className="mt-2.5 list-decimal ps-5 text-mut">
         <li>شغّل السكربت scripts/catalog-builder.gs في Google Apps Script.</li>

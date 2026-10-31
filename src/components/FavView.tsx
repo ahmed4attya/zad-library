@@ -1,28 +1,26 @@
 'use client';
 
 import { FileRow } from './FileRow';
-import { Hero } from './Hero';
+import { PageHead } from './PageHead';
 import { useLib } from '@/lib/library-context';
 
 export function FavView() {
   const { data, st } = useLib();
   const r = data.all.filter((f) => st.fav[f.id]);
   return (
-    <>
-      <Hero title="مفضلتي" sub="ملفاتك التي تعود إليها دائمًا" variant="gold" small />
-      <div className="wrap">
-        {r.length === 0 ? (
-          <div className="card-box relative -mt-[52px] py-9 text-center text-mut">
-            لم تضف شيئًا بعد. اضغط النجمة بجانب أي ملف لتجده هنا.
-          </div>
-        ) : (
-          <div className="relative -mt-[52px] grid gap-2.5 md:grid-cols-2">
-            {r.map((f) => (
-              <FileRow key={f.id} item={f} list={r} sub={f.path.join(' / ')} />
-            ))}
-          </div>
-        )}
-      </div>
-    </>
+    <div className="wrap mx-auto max-w-[820px] space-y-3 pt-4">
+      <PageHead title="المحفوظات" sub="لحفظ ما يهمك" icon="bookmark" />
+      {r.length === 0 ? (
+        <div className="card-box py-9 text-center text-mut">
+          لم تحفظ شيئًا بعد. اضغط أيقونة الإشارة بجانب أي ملف لتجده هنا.
+        </div>
+      ) : (
+        <div className="grid gap-2.5">
+          {r.map((f) => (
+            <FileRow key={f.id} item={f} list={r} sub={f.path.join(' / ')} />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }

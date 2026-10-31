@@ -21,17 +21,17 @@ export function FileRow({ item, list, sub }: { item: Item; list: Item[]; sub?: s
       onKeyDown={(e) => {
         if (e.key === 'Enter') openFile(item, list);
       }}
-      className="flex cursor-pointer items-center gap-3 rounded-[20px] border border-line bg-card p-2.5 transition-colors hover:border-brand-600"
+      className="flex cursor-pointer items-center gap-3 rounded-2xl border border-line bg-card px-4 py-2.5 shadow-sm transition-colors hover:border-brand-600"
     >
       <span
-        className={`grid h-[42px] w-[42px] flex-none place-items-center rounded-2xl text-pri ${
+        className={`grid h-10 w-10 flex-none place-items-center rounded-xl text-pri ${
           done ? 'bg-brand-100' : 'bg-brand-50'
         }`}
       >
         <Icon name={item.kind === 'audio' ? 'audio' : 'pdf'} />
       </span>
       <div className="min-w-0 flex-1">
-        <b className="line-clamp-2 text-[14.5px] font-semibold leading-relaxed">{item.title}</b>
+        <b className="line-clamp-2 text-[14.5px] font-bold leading-relaxed">{item.title}</b>
         <small className="block truncate text-mut">{sub ?? `${kindLabel(item)}${status}`}</small>
         {pr > 0.02 && !done && (
           <span className="mt-1 block h-1.5 overflow-hidden rounded-full bg-sand-200">
@@ -41,14 +41,14 @@ export function FileRow({ item, list, sub }: { item: Item; list: Item[]; sub?: s
       </div>
       <button
         type="button"
-        aria-label="المفضلة"
+        aria-label="المحفوظات"
         onClick={(e) => {
           e.stopPropagation();
           toggleFav(item.id);
         }}
-        className={`grid h-[38px] w-[38px] flex-none place-items-center rounded-xl ${fav ? 'text-gold' : 'text-mut'}`}
+        className={`grid h-9 w-9 flex-none place-items-center rounded-xl ${fav ? 'text-gold' : 'text-mut'}`}
       >
-        <Icon name="star" className={`h-[22px] w-[22px] ${fav ? 'fill-current' : ''}`} />
+        <Icon name="bookmark" className={`h-[22px] w-[22px] ${fav ? 'fill-current' : ''}`} />
       </button>
     </div>
   );

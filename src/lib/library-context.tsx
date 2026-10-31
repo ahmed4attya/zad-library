@@ -11,10 +11,9 @@ import {
   type ReactNode,
 } from 'react';
 import { buildIndex, isCatalog } from './catalog';
-import { dayKey } from './format';
 import type { CatNode, Filter, Index, Item, Persist, View } from './types';
 
-const DEF: Persist = { fav: {}, done: {}, pos: {}, days: {}, last: null, goal: 3, theme: 'light' };
+const DEF: Persist = { fav: {}, done: {}, pos: {}, last: null, theme: 'light' };
 const KEY = 'zad:v1';
 const CKEY = 'zad:catalog';
 const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -43,7 +42,7 @@ interface Ctx {
   crumb: (i: number) => void;
   setFilter: (f: Filter) => void;
   setQ: (s: string) => void;
-  setGoal: (n: number) => void;
+  searchFor: (s: string) => void;
   setRate: (r: number) => void;
   toggleTheme: () => void;
   toggleFav: (id: string) => void;
@@ -94,7 +93,16 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const s = localStorage.getItem(KEY);
-      if (s) setSt({ ...DEF, ...(JSON.parse(s) as Partial<Persist>) });
+      if (s) {
+        const p = JSON.parse(s) as Partial<Persist>;
+        setSt({
+          fav: p.fav ?? {},
+          done: p.done ?? {},
+          pos: p.pos ?? {},
+          last: p.last ?? null,
+          theme: p.theme === 'dark' ? 'dark' : 'light',
+        });
+      }
     } catch {
       /* تجاهل */
     }
@@ -173,7 +181,14 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const crumb = useCallback((i: number) => setPath((p) => p.slice(0, i + 1)), []);
 
-  const setGoal = useCallback((n: number) => setSt((p) => ({ ...p, goal: n })), []);
+  const searchFor = useCallback(
+    (s: string) => {
+      setQ(s);
+      go('search');
+    },
+    [go],
+  );
+
   const toggleTheme = useCallback(
     () => setSt((p) => ({ ...p, theme: p.theme === 'dark' ? 'light' : 'dark' })),
     [],
@@ -181,7 +196,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const toggleFav = useCallback(
     (id: string) => {
-      toast(st.fav[id] ? 'أُزيل من المفضلة' : 'أُضيف إلى المفضلة');
+      toast(st.fav[id] ? 'أُزيل من المحفوظات' : 'أُضيف إلى المحفوظات');
       setSt((p) => {
         const fav = { ...p.fav };
         if (fav[id]) delete fav[id];
@@ -193,11 +208,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   );
 
   const markDone = useCallback((id: string) => {
-    setSt((p) => {
-      if (p.done[id]) return p;
-      const k = dayKey(new Date());
-      return { ...p, done: { ...p.done, [id]: 1 }, days: { ...p.days, [k]: (p.days[k] ?? 0) + 1 } };
-    });
+    setSt((p) => (p.done[id] ? p : { ...p, done: { ...p.done, [id]: 1 } }));
   }, []);
 
   const savePos = useCallback((id: string, t: number, d: number) => {
@@ -251,7 +262,7 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
 
   const value: Ctx = {
     tree, data, loading, view, path, filter, q, st, sheet, rate, msg,
-    go, openSection, enter, crumb, setFilter, setQ, setGoal, setRate,
+    go, openSection, enter, crumb, setFilter, setQ, searchFor, setRate,
     toggleTheme, toggleFav, markDone, savePos, openFile, step, closeSheet, importFile,
   };
 

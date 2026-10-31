@@ -1,12 +1,15 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import { EmptyCatalog } from './EmptyCatalog';
 import { FileRow } from './FileRow';
-import { Hero } from './Hero';
-import { Icon } from './Icon';
+import { FolderRow } from './FolderRow';
+import { PageHead } from './PageHead';
+import { SearchBox } from './SearchBox';
 import { filesOf } from '@/lib/catalog';
-import { nf } from '@/lib/format';
+import { cleanName, nf } from '@/lib/format';
 import { useLib } from '@/lib/library-context';
+import { iconFor } from '@/lib/style';
 import type { Filter, Item } from '@/lib/types';
 
 const FILTERS: { k: Filter; l: string }[] = [
@@ -16,95 +19,107 @@ const FILTERS: { k: Filter; l: string }[] = [
 ];
 
 export function LibraryView() {
-  const { tree, data, path, filter, setFilter, crumb, enter } = useLib();
+  const { tree, data, path, filter, setFilter, go, crumb, enter } = useLib();
+  const [lq, setLq] = useState('');
   const cur = path[path.length - 1];
+
+  useEffect(() => {
+    setLq('');
+  }, [cur]);
+
+  const total = useMemo(() => (cur ? filesOf(cur, data.by) : []), [cur, data]);
+  const found = useMemo(() => {
+    const s = lq.trim().toLowerCase();
+    if (!s) return null;
+    return total.filter((f) => f.title.toLowerCase().includes(s)).slice(0, 100);
+  }, [lq, total]);
 
   if (!tree || !cur) {
     return (
-      <>
-        <Hero title="المكتبة" sub="تصفّح الأقسام والملفات" small />
-        <div className="wrap">
-          <EmptyCatalog />
-        </div>
-      </>
+      <div className="wrap pt-4">
+        <EmptyCatalog />
+      </div>
     );
   }
 
+  const root = path.length === 1;
   const subs = cur.folders ?? [];
-  const fs = (cur.files ?? [])
+  const secIndex = path[1] ? (tree.folders ?? []).indexOf(path[1]) : 0;
+  const fs: Item[] = (cur.files ?? [])
     .map((f) => data.by[f.id])
     .filter((f): f is Item => !!f && (filter === 'all' || f.kind === filter));
 
-  return (
-    <>
-      <Hero title={path.length === 1 ? 'المكتبة' : cur.name} sub="تصفّح الأقسام والملفات" small />
-      <div className="wrap">
-        <div className="card-box relative -mt-[52px]">
-          <nav aria-label="مسار التصفح" className="flex flex-wrap gap-1.5 text-sm text-mut">
-            {path.map((n, i) => (
-              <span key={i} className="flex gap-1.5">
-                {i > 0 && <span>/</span>}
-                {i < path.length - 1 ? (
-                  <button type="button" onClick={() => crumb(i)} className="font-medium text-pri">
-                    {i === 0 ? 'المكتبة' : n.name}
-                  </button>
-                ) : (
-                  <b className="text-ink">{i === 0 ? 'المكتبة' : n.name}</b>
-                )}
-              </span>
-            ))}
-          </nav>
-          <div className="mt-2.5 flex flex-wrap gap-2">
-            {FILTERS.map(({ k, l }) => (
-              <button
-                key={k}
-                type="button"
-                onClick={() => setFilter(k)}
-                className={`chip ${filter === k ? 'chip-on' : ''}`}
-              >
-                {l}
-              </button>
-            ))}
-          </div>
-        </div>
+  const crumbs: { label: string; onClick?: () => void }[] = [{ label: 'الرئيسية', onClick: () => go('home') }];
+  if (root) crumbs.push({ label: 'المكتبة' });
+  else
+    path.slice(1).forEach((n, i) => {
+      const idx = i + 1;
+      crumbs.push({ label: cleanName(n.name), onClick: idx < path.length - 1 ? () => crumb(idx) : undefined });
+    });
 
-        {subs.length > 0 && (
-          <>
-            <div className="h2">الأقسام</div>
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
-              {subs.map((d) => (
+  const sub = `${nf(total.length)} ملف${subs.length ? ` · ${nf(subs.length)} مجلد` : ''}`;
+
+  return (
+    <div className="wrap mx-auto max-w-[820px] space-y-3 pt-4">
+      <nav aria-label="مسار التصفح" className="flex flex-wrap items-center gap-1.5 text-sm text-mut">
+        {crumbs.map((c, i) => (
+          <span key={i} className="flex items-center gap-1.5">
+            {i > 0 && <span aria-hidden="true">‹</span>}
+            {c.onClick ? (
+              <button type="button" onClick={c.onClick} className="font-medium">
+                {c.label}
+              </button>
+            ) : (
+              <b className="text-ink">{c.label}</b>
+            )}
+          </span>
+        ))}
+      </nav>
+
+      <PageHead
+        title={root ? 'المكتبة' : cleanName(cur.name)}
+        sub={sub}
+        icon={root ? 'lib' : path.length === 2 ? iconFor(cur.name, Math.max(secIndex, 0)) : 'folder'}
+      />
+
+      <SearchBox value={lq} onChange={setLq} placeholder="ابحث داخل هذا القسم..." />
+
+      {found ? (
+        <div className="grid gap-2.5">
+          {found.length === 0 && <div className="py-9 text-center text-mut">لا توجد نتائج لهذه الكلمة.</div>}
+          {found.map((f) => (
+            <FileRow key={f.id} item={f} list={found} sub={f.path.join(' / ')} />
+          ))}
+        </div>
+      ) : (
+        <>
+          {(cur.files ?? []).length > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {FILTERS.map(({ k, l }) => (
                 <button
-                  key={d.id ?? d.name}
+                  key={k}
                   type="button"
-                  onClick={() => enter(d)}
-                  className="flex flex-col gap-2 rounded-3xl border border-line bg-card p-3.5 text-start shadow-lg shadow-black/5 transition hover:-translate-y-0.5 hover:border-brand-600"
+                  onClick={() => setFilter(k)}
+                  className={`chip ${filter === k ? 'chip-on' : ''}`}
                 >
-                  <span className="grid h-11 w-11 place-items-center rounded-2xl bg-brand-50 text-pri">
-                    <Icon name="folder" />
-                  </span>
-                  <b className="text-[15px] leading-relaxed">{d.name}</b>
-                  <small className="text-mut">{nf(filesOf(d, data.by).length)} ملفًا</small>
+                  {l}
                 </button>
               ))}
             </div>
-          </>
-        )}
-
-        {fs.length > 0 && (
-          <>
-            <div className="h2">الملفات ({nf(fs.length)})</div>
-            <div className="grid gap-2.5 md:grid-cols-2">
-              {fs.map((f) => (
-                <FileRow key={f.id} item={f} list={fs} />
-              ))}
-            </div>
-          </>
-        )}
-
-        {subs.length === 0 && fs.length === 0 && (
-          <div className="px-3 py-9 text-center text-mut">لا توجد ملفات مطابقة هنا.</div>
-        )}
-      </div>
-    </>
+          )}
+          <div className="grid gap-2.5">
+            {subs.map((d) => (
+              <FolderRow key={d.id ?? d.name} node={d} onClick={() => enter(d)} />
+            ))}
+            {fs.map((f) => (
+              <FileRow key={f.id} item={f} list={fs} />
+            ))}
+            {subs.length === 0 && fs.length === 0 && (
+              <div className="py-9 text-center text-mut">لا توجد ملفات مطابقة هنا.</div>
+            )}
+          </div>
+        </>
+      )}
+    </div>
   );
 }

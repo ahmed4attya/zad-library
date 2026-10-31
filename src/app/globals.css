@@ -3,24 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --b50: #eef7f1;
-  --b100: #d3ebdb;
-  --b600: #1d7544;
-  --b700: #165b33;
-  --b800: #0f4426;
-  --pri: #165b33;
-  --sand: #f3ece0;
-  --sand2: #e8dcc6;
-  --gold: #c8a13a;
-  --gold2: #7d6210;
-  --bg: #faf7f1;
+  --b50: #eaf3ed;
+  --b100: #d3e6da;
+  --b600: #1e7a4b;
+  --b700: #14573a;
+  --b800: #0b3d27;
+  --pri: #0f5132;
+  --sand: #f2e9d2;
+  --sand2: #e7dabc;
+  --gold: #c9a24a;
+  --gold2: #7a5e14;
+  --bg: #f8f3e7;
   --card: #ffffff;
-  --ink: #1c2a22;
-  --mut: #5f6f66;
-  --bd: #ece5d6;
+  --ink: #17261d;
+  --mut: #6a786f;
+  --bd: #e9e0ca;
+  --hero-a: #ecdfb8;
+  --hero-b: #f8f1de;
 }
 [data-t='dark'] {
-  --b50: #152a1f;
+  --b50: #16291f;
   --b100: #1d3a29;
   --pri: #6fd6a0;
   --sand: #1f2b24;
@@ -32,11 +34,13 @@
   --ink: #e9f0ea;
   --mut: #9aaaa0;
   --bd: #26352c;
+  --hero-a: #25301f;
+  --hero-b: #18211a;
 }
 
 body {
   @apply bg-surface text-ink antialiased;
-  font-family: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Arial, sans-serif;
   line-height: 1.7;
   padding-bottom: 86px;
   -webkit-tap-highlight-color: transparent;
@@ -60,19 +64,16 @@ body {
     @apply mx-auto max-w-[1040px] px-4;
   }
   .card-box {
-    @apply rounded-3xl border border-line bg-card p-[18px] shadow-lg shadow-black/5;
-  }
-  .h2 {
-    @apply mb-3 mt-[26px] text-[17px] font-bold;
-  }
-  .cta {
-    @apply mt-3 flex w-full items-center justify-center gap-2 rounded-[18px] bg-gradient-to-br from-brand-600 to-brand-700 p-3.5 font-bold text-white;
+    @apply rounded-2xl border border-line bg-card p-4 shadow-sm;
   }
   .btn {
     @apply inline-flex items-center gap-1.5 rounded-2xl border border-line bg-card px-4 py-2 text-sm text-ink;
   }
+  .cta {
+    @apply mt-3 flex w-full items-center justify-center gap-2 rounded-2xl bg-brand-700 p-3.5 font-bold text-white;
+  }
   .chip {
-    @apply rounded-full border border-line bg-card px-4 py-1;
+    @apply rounded-full border border-line bg-card px-4 py-1 text-sm;
   }
   .chip-on {
     @apply border-brand-700 bg-brand-700 text-white;

@@ -3,12 +3,12 @@ import type { ReactNode } from 'react';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'مكتبة زاد المسلم',
-  description: 'مكتبة إسلامية شاملة: القرآن الكريم، الأذكار، القصص، المحاضرات والكتب.',
+  title: 'زاد المسلم | المكتبة الإسلامية الشاملة',
+  description: 'مكتبتك الإسلامية في مكان واحد: للقراءة والاستماع والتعلم والتحميل.',
 };
 
 export const viewport: Viewport = {
-  themeColor: '#165B33',
+  themeColor: '#14573A',
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
         />
       </head>
       <body>{children}</body>

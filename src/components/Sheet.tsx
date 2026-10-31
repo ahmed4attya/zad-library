@@ -204,8 +204,8 @@ export function Sheet() {
             onClick={() => toggleFav(item.id)}
             className={`btn ${fav ? 'border-gold text-gold-700' : ''}`}
           >
-            <Icon name="star" className={`h-[18px] w-[18px] ${fav ? 'fill-current' : ''}`} />
-            المفضلة
+            <Icon name="bookmark" className={`h-[18px] w-[18px] ${fav ? 'fill-current' : ''}`} />
+            المحفوظات
           </button>
           <a className="btn" href={driveView(item.id)} target="_blank" rel="noopener noreferrer">
             <Icon name="ext" className="h-[18px] w-[18px]" />

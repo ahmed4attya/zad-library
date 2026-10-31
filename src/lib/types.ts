@@ -29,9 +29,7 @@ export interface Persist {
   fav: Record<string, 1>;
   done: Record<string, 1>;
   pos: Record<string, Progress>;
-  days: Record<string, number>;
   last: string | null;
-  goal: number;
   theme: 'light' | 'dark';
 }
 export type View = 'home' | 'lib' | 'search' | 'fav';
