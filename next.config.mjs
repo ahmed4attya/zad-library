@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   basePath: process.env.NEXT_PUBLIC_BASE_PATH || undefined,
-  distDir: '.next_build',
-  cleanDistDir: false,
+  // Use default .next on Vercel and CI, allowing custom override locally if needed
+  distDir: process.env.NEXT_DIST_DIR || undefined,
   typescript: {
     ignoreBuildErrors: true,
   },
