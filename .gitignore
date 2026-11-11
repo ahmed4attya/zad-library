@@ -1,5 +1,9 @@
 node_modules
 .next
+.next_build
+.next_app
+build_out
+graphify-out
 out
 next-env.d.ts
 *.tsbuildinfo
