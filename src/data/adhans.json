@@ -1,0 +1,84 @@
+[
+  {
+    "id": "makkah",
+    "name": "أذان المسجد الحرام بمكة المكرمة",
+    "muadhin": "الشيخ علي بن أحمد ملا (شيخ مؤذني الحرم المكي)",
+    "url": "/audio/adhan/makkah.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "madinah",
+    "name": "أذان المسجد النبوي الشريف بالمدينة",
+    "muadhin": "مؤذنو الحرم النبوي الشريف",
+    "url": "/audio/adhan/madinah.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "aqsa",
+    "name": "أذان المسجد الأقصى المبارك (القدس الشريف)",
+    "muadhin": "مؤذنو المسجد الأقصى المبارك",
+    "url": "/audio/adhan/aqsa.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "alafasy",
+    "name": "أذان الشيخ مشاري راشد العفاسي",
+    "muadhin": "فضيلة الشيخ مشاري راشد العفاسي",
+    "url": "/audio/adhan/alafasy.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "abdelbaset",
+    "name": "أذان الشيخ عبد الباسط عبد الصمد",
+    "muadhin": "فضيلة الشيخ عبد الباسط عبد الصمد رحمه الله",
+    "url": "/audio/adhan/abdelbaset.mp3",
+    "driveId": "1oYqt7kCO9qtd5v8m1jm8pwzr60d82Zdb",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "refaat",
+    "name": "أذان الشيخ محمد رفعت (إذاعة القرآن - القاهرة)",
+    "muadhin": "الشيخ محمد رفعت رحمه الله",
+    "url": "/audio/adhan/refaat.mp3",
+    "driveId": "1HmjW8yRC8MNZmj9w1wMxrF-PlD3Aicgw",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "qatami",
+    "name": "أذان الشيخ ناصر القطامي",
+    "muadhin": "فضيلة الشيخ ناصر القطامي (الرياض)",
+    "url": "/audio/adhan/qatami.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "dosari",
+    "name": "أذان الشيخ ياسر الدوسري",
+    "muadhin": "فضيلة الشيخ ياسر الدوسري",
+    "url": "/audio/adhan/dosari.mp3",
+    "isFajr": false,
+    "featured": true
+  },
+  {
+    "id": "minshawi",
+    "name": "أذان الشيخ محمد صديق المنشاوي",
+    "muadhin": "فضيلة الشيخ محمد صديق المنشاوي رحمه الله",
+    "url": "/audio/adhan/minshawi.mp3",
+    "isFajr": false,
+    "featured": false
+  },
+  {
+    "id": "mustafa",
+    "name": "أذان الشيخ مصطفى إسماعيل",
+    "muadhin": "الشيخ مصطفى إسماعيل رحمه الله",
+    "url": "/audio/adhan/mustafa.mp3",
+    "isFajr": false,
+    "featured": false
+  }
+]

@@ -1,0 +1,128 @@
+[
+  {
+    "id": "cairo_quran",
+    "name": "إذاعة القرآن الكريم من القاهرة",
+    "desc": "البث المباشر لإذاعة القرآن الكريم المصرية العريقة على مدار 24 ساعة",
+    "url": "https://stream.radiojar.com/8s5u5tpdtwzuv",
+    "featured": true
+  },
+  {
+    "id": "makkah_tarateel",
+    "name": "إذاعة تراتيل وتلاوات الحرم المكي",
+    "desc": "بث مباشر متواصل لتلاوات الحرم المكي الشريف وأجمل القراءات النادرة",
+    "url": "https://qurango.net/radio/tarateel",
+    "featured": true
+  },
+  {
+    "id": "sudais_radio",
+    "name": "إذاعة الشيخ عبد الرحمن السديس",
+    "desc": "تلاوات الحرم المكي الشريف برواية حفص عن عاصم",
+    "url": "https://qurango.net/radio/abdulrahman_alsudaes",
+    "featured": true
+  },
+  {
+    "id": "maher_radio",
+    "name": "إذاعة الشيخ ماهر المعيقلي",
+    "desc": "تلاوات خاشعة من صلوات التراويح والفرائض بالحرم المكي",
+    "url": "https://qurango.net/radio/maher",
+    "featured": true
+  },
+  {
+    "id": "alafasy_radio",
+    "name": "إذاعة الشيخ مشاري راشد العفاسي",
+    "desc": "المصحف المرتل الكامل برواية حفص عن عاصم",
+    "url": "https://qurango.net/radio/mishary_alafasi",
+    "featured": true
+  },
+  {
+    "id": "abdelbaset_mojawwad",
+    "name": "إذاعة الشيخ عبد الباسط (المصحف المجود)",
+    "desc": "روائع التلاوات المجودة الخالدة لصوت مكة الشيخ عبد الباسط عبد الصمد",
+    "url": "https://qurango.net/radio/abdulbasit_abdulsamad_mojawwad",
+    "featured": true
+  },
+  {
+    "id": "abdelbaset_murattal",
+    "name": "إذاعة الشيخ عبد الباسط (المصحف المرتل)",
+    "desc": "المصحف المرتل برواية حفص عن عاصم بجودة نقية متواصلة",
+    "url": "https://qurango.net/radio/abdulbasit_abdulsamad_murattal",
+    "featured": false
+  },
+  {
+    "id": "minshawi_mojawwad",
+    "name": "إذاعة الشيخ محمد صديق المنشاوي (المجود)",
+    "desc": "تلاوات خاشعة تفيض بالسكينة والخشوع بصوت الشيخ المنشاوي",
+    "url": "https://qurango.net/radio/mohammed_siddiq_alminshawi_mojawwad",
+    "featured": true
+  },
+  {
+    "id": "minshawi_murattal",
+    "name": "إذاعة الشيخ محمد صديق المنشاوي (المرتل)",
+    "desc": "المصحف المرتل الكامل بنقاء استوديو الإذاعة المصرية",
+    "url": "https://qurango.net/radio/mohammed_siddiq_alminshawi_murattal",
+    "featured": false
+  },
+  {
+    "id": "husary_radio",
+    "name": "إذاعة الشيخ محمود خليل الحصري",
+    "desc": "شيخ المقارئ المصرية وأدق تلاوة بأحكام التجويد والترتيل",
+    "url": "https://qurango.net/radio/mahmoud_khalil_alhussary",
+    "featured": true
+  },
+  {
+    "id": "husary_muallim",
+    "name": "إذاعة المصحف المعلم (للأطفال والمبتدئين)",
+    "desc": "الشيخ الحصري مع ترديد الأطفال لتعليم القراءة الصحيحة وحفظ القرآن",
+    "url": "https://qurango.net/radio/mahmoud_khalil_alhussary_muallim",
+    "featured": true
+  },
+  {
+    "id": "dosari_radio",
+    "name": "إذاعة الشيخ ياسر الدوسري",
+    "desc": "تلاوات مؤثرة من صلوات الحرم المكي الشريف",
+    "url": "https://qurango.net/radio/yasser_aldosari",
+    "featured": false
+  },
+  {
+    "id": "qatami_radio",
+    "name": "إذاعة الشيخ ناصر القطامي",
+    "desc": "مختارات تلاوات مميزة بجودة صوتية عالية",
+    "url": "https://qurango.net/radio/nasser_alqatami",
+    "featured": false
+  },
+  {
+    "id": "shuraim_radio",
+    "name": "إذاعة الشيخ سعود الشريم",
+    "desc": "تلاوات الحرم المكي العذبة لأكثر من ثلاثين عاماً",
+    "url": "https://qurango.net/radio/saud_alshuraim",
+    "featured": false
+  },
+  {
+    "id": "ali_jaber_radio",
+    "name": "إذاعة الشيخ علي جابر (تلاوات الحرم الخالدة)",
+    "desc": "التلاوات الرمضانية التاريخية من بيت الله الحرام",
+    "url": "https://qurango.net/radio/ali_jaber",
+    "featured": false
+  },
+  {
+    "id": "ruqyah_radio",
+    "name": "إذاعة الرقية الشرعية المطولة",
+    "desc": "آيات الشفاء والسكينة والتحصين بأصوات نخبة من كبار القراء",
+    "url": "https://qurango.net/radio/roqiah",
+    "featured": true
+  },
+  {
+    "id": "azkar_radio",
+    "name": "إذاعة الأذكار والأدعية المستجابة",
+    "desc": "أذكار الصباح والمساء، أدعية الاستيقاظ والنوم، وأوراد اليوم والليلة",
+    "url": "https://qurango.net/radio/athkar_sabah_massa",
+    "featured": true
+  },
+  {
+    "id": "tafsir_radio",
+    "name": "إذاعة خواطر وتفسير القرآن الكريم",
+    "desc": "خواطر إيمانية وتفسير كتاب الله لفضيلة الشيخ محمد متولي الشعراوي",
+    "url": "https://qurango.net/radio/tafseer",
+    "featured": true
+  }
+]

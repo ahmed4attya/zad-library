@@ -1,0 +1,43 @@
+{
+  "name": "زاد المسلم | المنصة والمكتبة الإسلامية الشاملة",
+  "short_name": "زاد المسلم",
+  "description": "تطبيق إسلامي شامل: مواقيت الصلاة والأذان، اتجاه القبلة، القرآن الكريم والتلاوات، الأذكار وحصن المسلم، السبحة الإلكترونية، الأربعون النووية، حاسبة الزكاة، والمكتبة الوقفية.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0e1612",
+  "theme_color": "#14573a",
+  "dir": "rtl",
+  "lang": "ar",
+  "orientation": "any",
+  "categories": ["lifestyle", "books", "utilities"],
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "مواقيت الصلاة والأذان",
+      "url": "/?view=prayer",
+      "description": "مواقيت الصلاة والعد التنازلي وسماع الأذان"
+    },
+    {
+      "name": "القرآن الكريم",
+      "url": "/?view=quran",
+      "description": "قراءة المصحف الشريف والتلاوات"
+    },
+    {
+      "name": "الأذكار وحصن المسلم",
+      "url": "/?view=azkar",
+      "description": "أذكار الصباح والمساء واليوم والليلة"
+    },
+    {
+      "name": "بوصلة القبلة",
+      "url": "/?view=qibla",
+      "description": "تحديد اتجاه الكعبة المشرفة"
+    }
+  ]
+}
