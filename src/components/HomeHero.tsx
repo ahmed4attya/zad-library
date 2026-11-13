@@ -42,16 +42,16 @@ export function HomeHero() {
   };
 
   const QUICK_ACTIONS: { key: View; label: string; desc: string; icon: typeof Clock; color: string }[] = [
-    { key: 'prayer', label: 'مواقيت الصلاة', desc: 'الأذان والعد التنازلي', icon: Clock, color: 'text-amber-500 bg-amber-500/10' },
-    { key: 'quran', label: 'القرآن الكريم', desc: 'تلاوات وقراءة المصحف', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/10' },
-    { key: 'azkar', label: 'الأذكار وحصن المسلم', desc: 'الصباح والمساء والرقية', icon: Sparkles, color: 'text-cyan-500 bg-cyan-500/10' },
-    { key: 'qibla', label: 'بوصلة القبلة', desc: 'تحديد دقيق لاتجاه الكعبة', icon: Compass, color: 'text-rose-500 bg-rose-500/10' },
-    { key: 'tasbeeh', label: 'السبحة الذكية', desc: 'عداد إلكتروني وأوراد', icon: Layers, color: 'text-purple-500 bg-purple-500/10' },
-    { key: 'hadith', label: 'الأحاديث النبوية', desc: 'الأربعون النووية بالشرح', icon: Scroll, color: 'text-blue-500 bg-blue-500/10' },
-    { key: 'zakat', label: 'حاسبة الزكاة', desc: 'المال والذهب والأسهم', icon: Coins, color: 'text-yellow-600 bg-yellow-500/10' },
-    { key: 'calendar', label: 'التقويم الهجري', desc: 'المناسبات وأيام البيض', icon: Calendar, color: 'text-teal-500 bg-teal-500/10' },
-    { key: 'names', label: 'أسماء الله الحسنى', desc: '99 اسماً مع المعاني والتدبر', icon: Heart, color: 'text-amber-600 bg-amber-500/10' },
-    { key: 'radio', label: 'إذاعات القرآن', desc: 'بث مباشر 24 ساعة', icon: Radio, color: 'text-rose-600 bg-rose-500/10' },
+    { key: 'prayer', label: 'مواقيت الصلاة', desc: 'الأذان والعد التنازلي الدقيق', icon: Clock, color: 'text-[#B88B35] bg-[#B88B35]/10' },
+    { key: 'quran', label: 'القرآن الكريم', desc: 'المصحف المرتل وتلاوات القراء', icon: BookOpen, color: 'text-[#1F6E4C] bg-[#1F6E4C]/10' },
+    { key: 'azkar', label: 'الأذكار وحصن المسلم', desc: 'أذكار الصباح والمساء والرقية', icon: Sparkles, color: 'text-[#2D7A5B] bg-[#2D7A5B]/10' },
+    { key: 'qibla', label: 'بوصلة القبلة', desc: 'تحديد دقيق لاتجاه الكعبة المشرفة', icon: Compass, color: 'text-[#A07026] bg-[#A07026]/10' },
+    { key: 'tasbeeh', label: 'السبحة الذكية', desc: 'عداد إلكتروني وتتبع الأوراد', icon: Layers, color: 'text-[#1E5E42] bg-[#1E5E42]/10' },
+    { key: 'hadith', label: 'الأحاديث النبوية', desc: 'الأربعون النووية مع الشرح الفقهي', icon: Scroll, color: 'text-[#966E2E] bg-[#966E2E]/10' },
+    { key: 'zakat', label: 'حاسبة الزكاة', desc: 'احتساب زكاة المال والذهب والأسهم', icon: Coins, color: 'text-[#B38734] bg-[#B38734]/10' },
+    { key: 'calendar', label: 'التقويم الهجري', desc: 'المناسبات الشرعية وأيام البيض', icon: Calendar, color: 'text-[#256B4D] bg-[#256B4D]/10' },
+    { key: 'names', label: 'أسماء الله الحسنى', desc: '99 اسماً جليلاً مع المعاني والتدبر', icon: Heart, color: 'text-[#A87B2C] bg-[#A87B2C]/10' },
+    { key: 'radio', label: 'إذاعات القرآن الكريم', desc: 'بث إذاعي مباشر متواصل 24 ساعة', icon: Radio, color: 'text-[#194D35] bg-[#194D35]/10' },
   ];
 
   return (
