@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://zad-library.vercel.app/',
   },
+  verification: {
+    google: 'HSmMS83miURFJ5PHJ1d23ybiA4O6wNrf83xy1hmmpto',
+  },
   robots: {
     index: true,
     follow: true,
