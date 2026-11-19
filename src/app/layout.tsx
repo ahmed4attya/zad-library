@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { PwaRegister } from '@/components/PwaRegister';
 import './globals.css';
+import faqs from '@/data/faqs.json';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://zad-library.vercel.app'),
@@ -59,6 +60,19 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: f.a,
+    },
+  })),
+};
+
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebApplication',
@@ -85,6 +99,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
         />
       </head>
       <body>
