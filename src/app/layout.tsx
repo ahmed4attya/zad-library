@@ -4,10 +4,40 @@ import { PwaRegister } from '@/components/PwaRegister';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://zad-library.vercel.app'),
   title: 'زاد المسلم | تطبيقك ومكتبتك الإسلامية الشاملة',
   description:
     'تطبيق إسلامي شامل: مواقيت الصلاة والأذان، اتجاه القبلة، القرآن الكريم والتلاوات، الأذكار وحصن المسلم، السبحة الإلكترونية، الأربعون النووية، حاسبة الزكاة، والمكتبة الوقفية.',
   manifest: '/manifest.json',
+  alternates: {
+    canonical: 'https://zad-library.vercel.app/',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'ar_SA',
+    url: 'https://zad-library.vercel.app/',
+    siteName: 'زاد المسلم',
+    title: 'زاد المسلم | تطبيقك ومكتبتك الإسلامية الشاملة',
+    description: 'تطبيق إسلامي شامل: مواقيت الصلاة، القرآن الكريم، الأذكار، اتجاه القبلة، والمكتبة الوقفية.',
+    images: [
+      {
+        url: '/icons/icon.svg',
+        width: 512,
+        height: 512,
+        alt: 'زاد المسلم',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary',
+    title: 'زاد المسلم | تطبيقك ومكتبتك الإسلامية الشاملة',
+    description: 'تطبيق إسلامي شامل: مواقيت الصلاة، القرآن الكريم، الأذكار، اتجاه القبلة، والمكتبة الوقفية.',
+    images: ['/icons/icon.svg'],
+  },
   icons: {
     icon: '/icons/icon.svg',
     apple: '/icons/icon.svg',
@@ -26,6 +56,18 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 };
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'زاد المسلم',
+  url: 'https://zad-library.vercel.app/',
+  description:
+    'تطبيق إسلامي شامل ومكتبة وقفية رقمية: القرآن الكريم، مواقيت الصلاة والأذان، اتجاه القبلة، الأذكار، وحاسبة الزكاة.',
+  applicationCategory: 'LifestyleApplication',
+  operatingSystem: 'All',
+  inLanguage: 'ar',
+};
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ar" dir="rtl" data-t="light" suppressHydrationWarning>
@@ -37,8 +79,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700;800;900&display=swap"
         />
         <link rel="apple-touch-icon" href="/icons/icon.svg" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </head>
       <body>
+        <h1 className="sr-only">زاد المسلم — تطبيق ومكتبة إسلامية شاملة ومواقيت الصلاة والقرآن الكريم</h1>
         {children}
         <PwaRegister />
       </body>
