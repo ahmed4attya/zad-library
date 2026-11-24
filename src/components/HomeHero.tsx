@@ -18,6 +18,7 @@ import {
   Heart,
   BookmarkCheck,
   Footprints,
+  ShieldAlert,
 } from 'lucide-react';
 import { MosqueArt, QuranArt } from './Art';
 import { useLib } from '@/lib/library-context';
@@ -44,6 +45,7 @@ export function HomeHero() {
   };
 
   const QUICK_ACTIONS: { key: View; label: string; desc: string; icon: typeof Clock; color: string }[] = [
+    { key: 'waqfa', label: 'وَقْفَة (صلاتك أولاً)', desc: 'شاشة كاملة إجبارية لترك الهاتف وإدراك الصلاة', icon: ShieldAlert, color: 'text-amber-600 bg-amber-500/10' },
     { key: 'prayer', label: 'مواقيت الصلاة', desc: 'الأذان والعد التنازلي الدقيق', icon: Clock, color: 'text-[#B88B35] bg-[#B88B35]/10' },
     { key: 'quran', label: 'القرآن الكريم', desc: 'المصحف المرتل وتلاوات القراء', icon: BookOpen, color: 'text-[#1F6E4C] bg-[#1F6E4C]/10' },
     { key: 'azkar', label: 'الأذكار وحصن المسلم', desc: 'أذكار الصباح والمساء والرقية', icon: Sparkles, color: 'text-[#2D7A5B] bg-[#2D7A5B]/10' },

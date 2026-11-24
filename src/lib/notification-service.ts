@@ -19,13 +19,17 @@ export interface NotificationSettings {
   sleepAzkar: boolean;
   fridayKahf: boolean;
   dailyHadith: boolean;
+  // Waqfa Mode (صلاتك أولاً) Settings
+  waqfaAutoLock: boolean;
+  waqfaDuration: number;
+  waqfaPreAlert: boolean;
 }
 
 const SETTINGS_KEY = 'zad_notification_settings_v1';
 const HISTORY_KEY = 'zad_notification_history_v1';
 
 export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
-  enabled: false,
+  enabled: true,
   adhanSound: true,
   selectedAdhanId: 'makkah',
   notifyFajr: true,
@@ -38,6 +42,9 @@ export const DEFAULT_NOTIFICATION_SETTINGS: NotificationSettings = {
   sleepAzkar: true,
   fridayKahf: true,
   dailyHadith: true,
+  waqfaAutoLock: true,
+  waqfaDuration: 15,
+  waqfaPreAlert: true,
 };
 
 export function getNotificationSettings(): NotificationSettings {
@@ -197,7 +204,8 @@ export async function sendTestNotification(
  */
 export function checkPrayerAlerts(
   prayers: Array<{ key: string; name: string; time: Date | string; formatted?: string }>,
-  onAdhanTrigger: (prayerName: string) => void
+  onAdhanTrigger: (prayerName: string) => void,
+  onWaqfaTrigger?: (prayerName: string, prayerKey: string) => void
 ): void {
   const settings = getNotificationSettings();
   if (!settings.enabled || getNotificationPermission() !== 'granted') return;
@@ -223,20 +231,38 @@ export function checkPrayerAlerts(
 
     // Diff between now and prayer time (in milliseconds)
     const diff = now - timeMs;
-    // Trigger if within [0, 90 seconds] after prayer time
+
+    // 1. Pre-prayer 5-minute reminder (Waqfa Pre-Alert)
+    if (settings.waqfaPreAlert && diff >= -5 * 60 * 1000 && diff <= -3.5 * 60 * 1000) {
+      const preKey = `${todayDateStr}-pre-prayer-${prayer.key}`;
+      if (!wasTriggeredRecently(preKey, 60 * 60 * 1000)) {
+        markTriggered(preKey);
+        showIslamicNotification(`اقتربت وقفة صلاة ${prayer.name} ⏳ (بعد 5 دقائق)`, {
+          body: `استعد للوضوء وأنهِ عملك، لتقف بين يدي ربك في خشوع وسكينة.`,
+          tag: `pre-prayer-${prayer.key}`,
+          data: { view: 'prayer' },
+        });
+      }
+    }
+
+    // 2. Trigger if within [0, 90 seconds] after prayer time
     if (diff >= 0 && diff <= 90 * 1000) {
       const historyKey = `${todayDateStr}-prayer-${prayer.key}`;
       if (!wasTriggeredRecently(historyKey, 60 * 60 * 1000)) {
         markTriggered(historyKey);
 
-        showIslamicNotification(`حان الآن موعد أذان ${prayer.name} 🕌`, {
-          body: `حي على الصلاة، حي على الفلاح. تقبل الله طاعتكم وصالح أعمالكم.`,
+        showIslamicNotification(`وقفة: حان الآن موعد أذان ${prayer.name} 🕌`, {
+          body: `حي على الصلاة، صلاتك أولاً! اترك الهاتف الآن وأقبل على ربك.`,
           tag: `prayer-${prayer.key}`,
-          data: { view: 'prayer' },
+          data: { view: 'waqfa' },
         });
 
         if (settings.adhanSound) {
           onAdhanTrigger(prayer.name);
+        }
+
+        if (settings.waqfaAutoLock && onWaqfaTrigger) {
+          onWaqfaTrigger(prayer.name, prayer.key);
         }
         break;
       }

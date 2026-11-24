@@ -18,11 +18,24 @@ import { RadioView } from './RadioView';
 import { AllahNamesView } from './AllahNamesView';
 import { HajjUmrahView } from './HajjUmrahView';
 import { KhatmaView } from './KhatmaView';
+import { WaqfaView } from './WaqfaView';
+import { WaqfaLockOverlay } from './WaqfaLockOverlay';
 import { NotificationSettingsModal } from './NotificationSettingsModal';
 import { LibraryProvider, useLib } from '@/lib/library-context';
 
 function Shell() {
-  const { view, loading, notifModalOpen, closeNotifModal, playAdhan, toast } = useLib();
+  const {
+    view,
+    loading,
+    notifModalOpen,
+    closeNotifModal,
+    playAdhan,
+    toast,
+    waqfaActive,
+    waqfaPrayerName,
+    waqfaDuration,
+    dismissWaqfa,
+  } = useLib();
   if (loading) {
     return (
       <div className="grid min-h-screen place-items-center bg-surface text-sm text-mut">
@@ -51,6 +64,7 @@ function Shell() {
         {view === 'names' && <AllahNamesView toast={toast} />}
         {view === 'hajj' && <HajjUmrahView />}
         {view === 'khatma' && <KhatmaView />}
+        {view === 'waqfa' && <WaqfaView />}
         {view === 'lib' && <LibraryView />}
         {view === 'search' && <SearchView />}
         {view === 'fav' && <FavView />}
@@ -64,6 +78,13 @@ function Shell() {
         onPlayAdhan={playAdhan}
         toast={toast}
       />
+      {waqfaActive && (
+        <WaqfaLockOverlay
+          prayerName={waqfaPrayerName}
+          durationMinutes={waqfaDuration}
+          onDismiss={dismissWaqfa}
+        />
+      )}
     </div>
   );
 }

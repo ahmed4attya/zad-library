@@ -102,6 +102,11 @@ interface Ctx {
   notifModalOpen: boolean;
   openNotifModal: () => void;
   closeNotifModal: () => void;
+  waqfaActive: boolean;
+  waqfaPrayerName: string;
+  waqfaDuration: number;
+  startWaqfa: (prayerName?: string, duration?: number) => void;
+  dismissWaqfa: () => void;
 }
 
 const C = createContext<Ctx | null>(null);
@@ -513,15 +518,42 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
   const openNotifModal = useCallback(() => setNotifModalOpen(true), []);
   const closeNotifModal = useCallback(() => setNotifModalOpen(false), []);
 
-  // Periodic alert check for Prayer times (Adhan) and Azkar
+  // حالة وضع "وقفة" (شاشة كاملة عند دخول وقت الصلاة لإجبار المستخدم على الصلاة)
+  const [waqfaActive, setWaqfaActive] = useState(false);
+  const [waqfaPrayerName, setWaqfaPrayerName] = useState('الصلاة');
+  const [waqfaDuration, setWaqfaDuration] = useState(15);
+
+  const startWaqfa = useCallback((prayerName?: string, duration?: number) => {
+    const settings = getNotificationSettings();
+    setWaqfaPrayerName(prayerName || prayerStatus?.nextPrayer?.name || 'الصلاة');
+    setWaqfaDuration(duration || settings.waqfaDuration || 15);
+    setWaqfaActive(true);
+  }, [prayerStatus]);
+
+  const dismissWaqfa = useCallback(() => {
+    setWaqfaActive(false);
+  }, []);
+
+  // Periodic alert check for Prayer times (Adhan), Azkar, and Waqfa Full-Screen Mode
   useEffect(() => {
     const check = () => {
       if (prayerStatus && prayerStatus.entries) {
-        checkPrayerAlerts(prayerStatus.entries, (prayerName) => {
-          const settings = getNotificationSettings();
-          playAdhan(settings.selectedAdhanId || 'makkah');
-          toast(`حان موعد أذان ${prayerName} 🕌`);
-        });
+        checkPrayerAlerts(
+          prayerStatus.entries,
+          (prayerName) => {
+            const settings = getNotificationSettings();
+            playAdhan(settings.selectedAdhanId || 'makkah');
+            toast(`حان موعد أذان ${prayerName} 🕌`);
+          },
+          (prayerName) => {
+            const settings = getNotificationSettings();
+            if (settings.waqfaAutoLock) {
+              setWaqfaPrayerName(prayerName);
+              setWaqfaDuration(settings.waqfaDuration || 15);
+              setWaqfaActive(true);
+            }
+          }
+        );
       }
       checkAzkarAndDailyAlerts();
     };
@@ -576,6 +608,11 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       stopAdhan,
       updateTasbeehCount,
       toast,
+      waqfaActive,
+      waqfaPrayerName,
+      waqfaDuration,
+      startWaqfa,
+      dismissWaqfa,
     }),
     [
       tree,
@@ -621,6 +658,11 @@ export function LibraryProvider({ children }: { children: ReactNode }) {
       stopAdhan,
       updateTasbeehCount,
       toast,
+      waqfaActive,
+      waqfaPrayerName,
+      waqfaDuration,
+      startWaqfa,
+      dismissWaqfa,
     ]
   );
 

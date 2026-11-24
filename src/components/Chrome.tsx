@@ -23,6 +23,7 @@ import {
   ChevronDown,
   Bell,
   Heart,
+  ShieldAlert,
 } from 'lucide-react';
 import { ImportButton } from './ImportButton';
 import { Logo } from './Logo';
@@ -38,6 +39,7 @@ const PRIMARY_NAV: { k: View; l: string; icon: typeof Home }[] = [
 ];
 
 const MORE_NAV: { k: View; l: string; desc: string; icon: typeof Compass }[] = [
+  { k: 'waqfa', l: 'وقفة (صلاتك أولاً)', desc: 'شاشة كاملة إجبارية وقت الصلاة', icon: ShieldAlert },
   { k: 'qibla', l: 'بوصلة القبلة', desc: 'تحديد دقيق لاتجاه الكعبة', icon: Compass },
   { k: 'tasbeeh', l: 'السبحة الذكية', desc: 'عداد إلكتروني وتسبيح', icon: Layers },
   { k: 'hadith', l: 'الأربعون النووية', desc: 'أحاديث نبوية مع الشرح', icon: Scroll },

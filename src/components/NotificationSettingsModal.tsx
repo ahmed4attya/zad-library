@@ -15,6 +15,7 @@ import {
   Moon,
   Clock,
   BookOpen,
+  ShieldAlert,
 } from 'lucide-react';
 import {
   NotificationSettings,
@@ -243,6 +244,52 @@ export function NotificationSettingsModal({ isOpen, onClose, onPlayAdhan, toast 
                       </button>
                     );
                   })}
+                </div>
+              </div>
+
+              {/* وضع وقفة (صلاتك أولاً) */}
+              <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 font-semibold text-[var(--text-main)]">
+                    <ShieldAlert className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                    <span>وضع "وقفة" الإجباري (صلاتك أولاً):</span>
+                  </div>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300">
+                    مستوحى من أداة وقفة
+                  </span>
+                </div>
+                <p className="text-[11px] text-[var(--text-subtle)] leading-relaxed">
+                  قفل الشاشة بالكامل عند الأذان لإجبارك على ترك الهاتف والذهاب إلى الصلاة، مع تعطيل زر الخروج لأول 60 ثانية.
+                </p>
+                <div className="space-y-2 pt-1">
+                  <div
+                    onClick={() => updateSetting('waqfaAutoLock', !settings.waqfaAutoLock)}
+                    className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-between cursor-pointer hover:border-amber-500 transition-colors"
+                  >
+                    <div className="text-xs font-semibold text-[var(--text-main)]">
+                      تفعيل القفل التلقائي بكامل الشاشة عند كل صلاة
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings.waqfaAutoLock}
+                      onChange={() => {}}
+                      className="w-4 h-4 accent-amber-600"
+                    />
+                  </div>
+                  <div
+                    onClick={() => updateSetting('waqfaPreAlert', !settings.waqfaPreAlert)}
+                    className="p-3 rounded-xl bg-[var(--bg-card)] border border-[var(--border-subtle)] flex items-center justify-between cursor-pointer hover:border-amber-500 transition-colors"
+                  >
+                    <div className="text-xs font-semibold text-[var(--text-main)]">
+                      تنبيه مسبق قبل الصلاة بـ 5 دقائق للوضوء والاستعداد
+                    </div>
+                    <input
+                      type="checkbox"
+                      checked={settings.waqfaPreAlert}
+                      onChange={() => {}}
+                      className="w-4 h-4 accent-amber-600"
+                    />
+                  </div>
                 </div>
               </div>
 

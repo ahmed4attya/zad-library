@@ -18,6 +18,7 @@ import {
   Moon,
   Sparkles,
   Bell,
+  ShieldAlert,
 } from 'lucide-react';
 import { useLib } from '@/lib/library-context';
 import { CALC_METHODS, CityInfo } from '@/lib/prayer-service';
@@ -38,6 +39,7 @@ export function PrayerTimesView() {
     stopAdhan,
     activeAdhanAudio,
     openNotifModal,
+    startWaqfa,
     go,
   } = useLib();
 
@@ -191,6 +193,15 @@ export function PrayerTimesView() {
                   <span>سماع الأذان الآن</span>
                 </>
               )}
+            </button>
+            <button
+              type="button"
+              onClick={() => startWaqfa(prayerStatus.nextPrayer?.name || 'الصلاة')}
+              className="inline-flex items-center gap-2 rounded-full border border-amber-400/50 bg-amber-400/20 px-5 py-2 text-xs font-bold text-amber-200 backdrop-blur hover:bg-amber-400/30 transition-all hover:scale-105"
+              title="تشغيل وضع الشاشة الكاملة الإجباري لترك الهاتف"
+            >
+              <ShieldAlert className="h-4 w-4 text-amber-300" />
+              <span>وضع وقفة (صلاتك أولاً)</span>
             </button>
             <button
               type="button"

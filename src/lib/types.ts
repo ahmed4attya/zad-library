@@ -63,6 +63,7 @@ export type View =
   | 'radio'
   | 'names'
   | 'hajj'
-  | 'khatma';
+  | 'khatma'
+  | 'waqfa';
 
 export type Filter = 'all' | 'audio' | 'pdf';
