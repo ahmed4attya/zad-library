@@ -160,22 +160,42 @@ export function QuranView() {
     return `${selectedReciter.server}${pad}.mp3`;
   };
 
+  // Reset audio when surah or reciter changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current = null;
+      setIsPlaying(false);
+    }
+  }, [selectedSurah, selectedReciter]);
+
   const togglePlayAudio = () => {
-    if (!audioRef.current && selectedSurah) {
-      audioRef.current = new Audio(getAudioUrl(selectedSurah));
-      audioRef.current.onended = () => setIsPlaying(false);
-      audioRef.current.onerror = () => setIsPlaying(false);
+    if (!selectedSurah) return;
+    const targetUrl = getAudioUrl(selectedSurah);
+
+    if (isPlaying && audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      return;
     }
 
-    if (audioRef.current) {
-      if (isPlaying) {
+    if (!audioRef.current || audioRef.current.src !== targetUrl) {
+      if (audioRef.current) {
         audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        audioRef.current.play().catch(() => setIsPlaying(false));
-        setIsPlaying(true);
       }
+      const audio = new Audio(targetUrl);
+      audioRef.current = audio;
+      audio.onended = () => setIsPlaying(false);
+      audio.onerror = () => setIsPlaying(false);
     }
+
+    audioRef.current
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch((err) => {
+        console.warn('Audio playback error:', err);
+        setIsPlaying(false);
+      });
   };
 
   const openWaqfQuranSection = () => {

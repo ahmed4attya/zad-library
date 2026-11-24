@@ -1,9 +1,0 @@
-[allowlist]
-description = "Ignore build output and node_modules"
-paths = [
-    '''\.next''',
-    '''\.next_build''',
-    '''\.next_app''',
-    '''build_out''',
-    '''node_modules'''
-]

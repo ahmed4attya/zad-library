@@ -41,9 +41,21 @@ export function RadioView() {
     const urls = [radio.url, ...fallbacks];
     const targetUrl = urls[serverIndex] || radio.url;
 
-    const audio = new Audio(targetUrl);
+    const audio = new Audio();
+    audio.src = targetUrl;
+    audio.preload = 'auto';
     audioRef.current = audio;
     audio.volume = isMuted ? 0 : volume;
+
+    audio.onplaying = () => {
+      setIsPlaying(true);
+      setIsLoading(false);
+      setPlaybackError(null);
+    };
+
+    audio.oncanplay = () => {
+      setIsLoading(false);
+    };
 
     const tryNextFallback = () => {
       const nextIndex = serverIndex + 1;

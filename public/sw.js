@@ -1,4 +1,4 @@
-const CACHE_NAME = 'zad-almuslim-v2';
+const CACHE_NAME = 'zad-almuslim-v3';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -30,8 +30,11 @@ self.addEventListener('fetch', (event) => {
   const req = event.request;
   const url = new URL(req.url);
 
-  // Avoid caching non-GET or chrome-extension or external audio stream range requests
+  // Avoid caching non-GET or chrome-extension or external cross-origin streaming requests
   if (req.method !== 'GET' || !url.protocol.startsWith('http')) return;
+
+  // NEVER intercept cross-origin audio or external APIs - let the browser stream them directly!
+  if (url.origin !== self.location.origin) return;
 
   // For audio files or streaming requests, let browser handle normally
   if (req.headers.has('range') || url.pathname.endsWith('.mp3')) {
