@@ -1,11 +1,15 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Radio, Play, Square, Volume2, VolumeX, Sparkles, Wifi, Tv, ExternalLink } from 'lucide-react';
+import { Radio, Play, Square, Volume2, VolumeX, Sparkles, Wifi, Tv, ExternalLink, RotateCcw, Server } from 'lucide-react';
+import { useLib } from '@/lib/library-context';
 import radiosData from '@/data/radios.json';
 
 export function RadioView() {
+  const { toast } = useLib();
   const [activeRadio, setActiveRadio] = useState<(typeof radiosData)[0] | null>(null);
+  const [currentServerIndex, setCurrentServerIndex] = useState(0);
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
@@ -22,38 +26,73 @@ export function RadioView() {
     };
   }, []);
 
-  const playRadio = (radio: (typeof radiosData)[0]) => {
+  const playRadio = (radio: (typeof radiosData)[0], serverIndex = 0) => {
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current = null;
     }
 
     setIsLoading(true);
+    setPlaybackError(null);
     setActiveRadio(radio);
+    setCurrentServerIndex(serverIndex);
 
-    const audio = new Audio(radio.url);
+    const fallbacks = (radio as { fallbacks?: string[] }).fallbacks || [];
+    const urls = [radio.url, ...fallbacks];
+    const targetUrl = urls[serverIndex] || radio.url;
+
+    const audio = new Audio(targetUrl);
     audioRef.current = audio;
     audio.volume = isMuted ? 0 : volume;
+
+    const tryNextFallback = () => {
+      const nextIndex = serverIndex + 1;
+      if (nextIndex < urls.length) {
+        toast(`جاري التحويل تلقائياً لسيرفر البث الاحتياطي (${nextIndex + 1}/${urls.length})...`);
+        playRadio(radio, nextIndex);
+      } else {
+        setIsPlaying(false);
+        setIsLoading(false);
+        setPlaybackError('تعذر الاتصال بسيرفر البث المباشر حالياً، يرجى إعادة المحاولة.');
+      }
+    };
 
     audio
       .play()
       .then(() => {
         setIsPlaying(true);
         setIsLoading(false);
+        setPlaybackError(null);
+
+        // Native Media Session API for lockscreen and background controls
+        if (typeof window !== 'undefined' && 'mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: radio.name,
+            artist: 'زاد المسلم — بث إذاعي مباشر 24 ساعة',
+            album: 'إذاعات القرآن الكريم',
+            artwork: [{ src: '/icons/icon.svg', sizes: '512x512', type: 'image/svg+xml' }],
+          });
+        }
       })
-      .catch(() => {
-        setIsPlaying(false);
-        setIsLoading(false);
+      .catch((err) => {
+        console.warn('Radio playback error, trying fallback:', err);
+        tryNextFallback();
       });
 
     audio.onerror = () => {
-      setIsPlaying(false);
-      setIsLoading(false);
+      tryNextFallback();
     };
+  };
+
+  const switchServer = (idx: number) => {
+    if (activeRadio) {
+      playRadio(activeRadio, idx);
+    }
   };
 
   const togglePlay = () => {
     if (!audioRef.current && radiosData.length > 0) {
-      playRadio(radiosData[0]);
+      playRadio(activeRadio || radiosData[0], currentServerIndex);
       return;
     }
 
@@ -62,7 +101,12 @@ export function RadioView() {
         audioRef.current.pause();
         setIsPlaying(false);
       } else {
-        audioRef.current.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+        audioRef.current
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {
+            if (activeRadio) playRadio(activeRadio, currentServerIndex);
+          });
       }
     }
   };
@@ -173,6 +217,43 @@ export function RadioView() {
               className="w-full accent-amber-400"
             />
           </div>
+
+          {/* Server Selector for stations with backup streams */}
+          {activeRadio && (activeRadio as { fallbacks?: string[] }).fallbacks && (activeRadio as { fallbacks?: string[] }).fallbacks!.length > 0 && (
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-1.5">
+              <span className="text-[11px] text-amber-200/80 flex items-center gap-1">
+                <Server className="h-3 w-3" />
+                سيرفر البث:
+              </span>
+              {[activeRadio.url, ...(activeRadio as { fallbacks?: string[] }).fallbacks!].map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => switchServer(idx)}
+                  className={`px-3 py-1 rounded-full text-[11px] font-bold transition-all ${
+                    currentServerIndex === idx
+                      ? 'bg-amber-400 text-brand-950 shadow-sm'
+                      : 'bg-black/30 text-amber-200/80 hover:bg-black/50 border border-white/10'
+                  }`}
+                >
+                  سيرفر {idx + 1} {idx === 0 ? '(الأساسي)' : '(الاحتياطي)'}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {playbackError && (
+            <div className="mt-3 flex items-center gap-2 px-4 py-2 rounded-xl bg-rose-500/20 border border-rose-500/40 text-rose-200 text-xs">
+              <span>{playbackError}</span>
+              <button
+                type="button"
+                onClick={() => activeRadio && playRadio(activeRadio, currentServerIndex)}
+                className="underline font-bold hover:text-white"
+              >
+                إعادة المحاولة
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
